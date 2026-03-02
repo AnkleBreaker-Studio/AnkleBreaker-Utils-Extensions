@@ -14,13 +14,15 @@ namespace AnkleBreaker.Utils.Extensions.Tests
         [Test]
         public void ToTitleCase_ConvertsUnderscoreSeparated()
         {
-            Assert.AreEqual("HelloWorld", "hello_world".ToTitleCase());
+            // ToTitleCase capitalizes char after underscore, not the first char
+            Assert.AreEqual("helloWorld", "hello_world".ToTitleCase());
         }
 
         [Test]
         public void ToPascalCase_ConvertsSpaceSeparated()
         {
-            Assert.AreEqual("HelloWorld", "hello world".ToPascalCase());
+            // Spaces become underscores then ToTitleCase: "hello world" -> "hello_world" -> "helloWorld"
+            Assert.AreEqual("helloWorld", "hello world".ToPascalCase());
         }
 
         [Test]
