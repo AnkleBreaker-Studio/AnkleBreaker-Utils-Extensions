@@ -53,11 +53,13 @@ namespace AnkleBreaker.Utils.Extensions
                 colliders[i].enabled = enablement[i];
         }
 
+        /// <summary>
+        /// Disables shadows on all child renderers. Use <see cref="RendererExtensions.DisableAllShadows"/> instead.
+        /// </summary>
+        [System.Obsolete("Misplaced in ColliderExtensions. Use RendererExtensions.DisableAllShadows() instead.")]
         public static void DisableAllShadows(this GameObject obj)
         {
-            Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
-            foreach (var renderer in renderers)
-                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            RendererExtensions.DisableAllShadows(obj);
         }
 
         public static bool IsBoxSphereCapsule(this Collider collider)

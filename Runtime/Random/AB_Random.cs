@@ -72,7 +72,7 @@ namespace AnkleBreaker.Utils.Extensions
             // Convert the 2D point to 3D using the center position
             Vector3 randomPoint3D = new Vector3(randomPoint.x, 0, randomPoint.y);
 
-            float yOffset = UnityEngine.Random.Range(yOffsetRange.x, yOffsetRange.y);
+            float yOffset = yOffsetRange.x + (float)(random.NextDouble() * (yOffsetRange.y - yOffsetRange.x));
             randomPoint3D.y = yOffset;
 
             // Apply the offset from the center

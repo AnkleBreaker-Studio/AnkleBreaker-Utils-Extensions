@@ -421,6 +421,177 @@ namespace AnkleBreaker.Utils.Extensions.Tests
 
         #endregion
 
+        #region Vector Extensions
+
+        [Test]
+        public void Vector3_With_OverridesSpecifiedComponents()
+        {
+            Vector3 v = new Vector3(1f, 2f, 3f);
+            Vector3 result = v.With(y: 0f);
+            Assert.AreEqual(1f, result.x, 0.001f);
+            Assert.AreEqual(0f, result.y, 0.001f);
+            Assert.AreEqual(3f, result.z, 0.001f);
+        }
+
+        [Test]
+        public void Vector3_With_MultipleOverrides()
+        {
+            Vector3 v = new Vector3(1f, 2f, 3f);
+            Vector3 result = v.With(x: 10f, z: 30f);
+            Assert.AreEqual(10f, result.x, 0.001f);
+            Assert.AreEqual(2f, result.y, 0.001f);
+            Assert.AreEqual(30f, result.z, 0.001f);
+        }
+
+        [Test]
+        public void Vector3_Flat_ZerosOutY()
+        {
+            Vector3 v = new Vector3(5f, 99f, 10f);
+            Vector3 result = v.Flat();
+            Assert.AreEqual(5f, result.x, 0.001f);
+            Assert.AreEqual(0f, result.y, 0.001f);
+            Assert.AreEqual(10f, result.z, 0.001f);
+        }
+
+        [Test]
+        public void Vector2_ToVector3XZ_ConvertsCorrectly()
+        {
+            Vector2 v = new Vector2(3f, 7f);
+            Vector3 result = v.ToVector3XZ();
+            Assert.AreEqual(3f, result.x, 0.001f);
+            Assert.AreEqual(0f, result.y, 0.001f);
+            Assert.AreEqual(7f, result.z, 0.001f);
+        }
+
+        [Test]
+        public void Vector2_With_OverridesSpecifiedComponent()
+        {
+            Vector2 v = new Vector2(1f, 2f);
+            Vector2 result = v.With(y: 5f);
+            Assert.AreEqual(1f, result.x, 0.001f);
+            Assert.AreEqual(5f, result.y, 0.001f);
+        }
+
+        #endregion
+
+        #region List Extensions - Shuffle & GetRandom
+
+        [Test]
+        public void List_GetRandom_ReturnsElementFromList()
+        {
+            var list = new List<int> { 10, 20, 30 };
+            int result = list.GetRandom();
+            Assert.IsTrue(list.Contains(result));
+        }
+
+        [Test]
+        public void List_GetRandom_ThrowsOnEmptyList()
+        {
+            var list = new List<int>();
+            Assert.Throws<InvalidOperationException>(() => list.GetRandom());
+        }
+
+        [Test]
+        public void List_Shuffle_PreservesElements()
+        {
+            var list = new List<int> { 1, 2, 3, 4, 5 };
+            var original = new List<int>(list);
+            list.Shuffle();
+            Assert.AreEqual(original.Count, list.Count);
+            foreach (int item in original)
+                Assert.IsTrue(list.Contains(item));
+        }
+
+        #endregion
+
+        #region Enumerable Extensions - ForEach
+
+        [Test]
+        public void ForEach_ExecutesActionOnEachElement()
+        {
+            var items = new List<int> { 1, 2, 3 };
+            int sum = 0;
+            ((IEnumerable<int>)items).ForEach(x => sum += x);
+            Assert.AreEqual(6, sum);
+        }
+
+        [Test]
+        public void ForEach_NullEnumerable_DoesNotThrow()
+        {
+            IEnumerable<int> items = null;
+            Assert.DoesNotThrow(() => items.ForEach(x => { }));
+        }
+
+        #endregion
+
+        #region Color Extensions - WithR/G/B & ToHexString
+
+        [Test]
+        public void Color_WithR_ChangesOnlyR()
+        {
+            Color c = new Color(0.1f, 0.2f, 0.3f, 0.4f);
+            Color result = c.WithR(0.9f);
+            Assert.AreEqual(0.9f, result.r, 0.001f);
+            Assert.AreEqual(0.2f, result.g, 0.001f);
+            Assert.AreEqual(0.3f, result.b, 0.001f);
+            Assert.AreEqual(0.4f, result.a, 0.001f);
+        }
+
+        [Test]
+        public void Color_WithG_ChangesOnlyG()
+        {
+            Color c = new Color(0.1f, 0.2f, 0.3f, 0.4f);
+            Color result = c.WithG(0.8f);
+            Assert.AreEqual(0.1f, result.r, 0.001f);
+            Assert.AreEqual(0.8f, result.g, 0.001f);
+        }
+
+        [Test]
+        public void Color_WithB_ChangesOnlyB()
+        {
+            Color c = new Color(0.1f, 0.2f, 0.3f, 0.4f);
+            Color result = c.WithB(0.7f);
+            Assert.AreEqual(0.7f, result.b, 0.001f);
+            Assert.AreEqual(0.4f, result.a, 0.001f);
+        }
+
+        [Test]
+        public void Color_ToHexString_WithoutAlpha()
+        {
+            Color c = new Color(1f, 0f, 0f, 1f);
+            Assert.AreEqual("#FF0000", c.ToHexString());
+        }
+
+        [Test]
+        public void Color_ToHexString_WithAlpha()
+        {
+            Color c = new Color(1f, 0f, 0f, 0.5f);
+            string hex = c.ToHexString(true);
+            Assert.IsTrue(hex.StartsWith("#FF0000"));
+            Assert.AreEqual(9, hex.Length); // #RRGGBBAA
+        }
+
+        #endregion
+
+        #region LayerMask Extensions
+
+        [Test]
+        public void LayerMask_AddLayer_AddsCorrectBit()
+        {
+            LayerMask mask = 0;
+            mask = mask.AddLayer(5);
+            Assert.IsTrue(mask.Contains(5));
+        }
+
+        [Test]
+        public void LayerMask_Contains_ReturnsFalseForMissingLayer()
+        {
+            LayerMask mask = 1 << 3;
+            Assert.IsFalse(mask.Contains(5));
+        }
+
+        #endregion
+
         #region AB_Random
 
         [Test]

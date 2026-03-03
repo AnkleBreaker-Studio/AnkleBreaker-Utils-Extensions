@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace AnkleBreaker.Utils.Extensions
@@ -11,7 +12,7 @@ namespace AnkleBreaker.Utils.Extensions
             return count > 0 && index >= 0 && index < count;
         }
 
-        public static void SetActiveObjects<T>(this List<T> src, bool toEnable) where T : Object
+        public static void SetActiveObjects<T>(this List<T> src, bool toEnable) where T : UnityEngine.Object
         {
             if (src.Count == 0) return;
 
@@ -39,6 +40,30 @@ namespace AnkleBreaker.Utils.Extensions
                 return src.Count - 1;
         }
         
+        /// <summary>
+        /// Returns a random element from the list.
+        /// </summary>
+        public static T GetRandom<T>(this IList<T> list)
+        {
+            if (list == null || list.Count == 0)
+                throw new InvalidOperationException("Cannot get a random element from an empty or null list.");
+            return list[UnityEngine.Random.Range(0, list.Count)];
+        }
+
+        /// <summary>
+        /// Shuffles the list in-place using Fisher-Yates algorithm.
+        /// </summary>
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            for (int i = list.Count - 1; i > 0; i--)
+            {
+                int j = UnityEngine.Random.Range(0, i + 1);
+                T tmp = list[i];
+                list[i] = list[j];
+                list[j] = tmp;
+            }
+        }
+
         /// <summary>
         /// Removes null entries from a list.
         /// </summary>

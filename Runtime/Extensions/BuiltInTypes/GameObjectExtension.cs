@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace AnkleBreaker.Utils.Extensions
@@ -25,26 +24,28 @@ namespace AnkleBreaker.Utils.Extensions
         public static Bounds CalculateObjectBounds(this GameObject obj, List<Collider> collidersToExclude = null)
         {
             Collider[] colliders = obj.GetComponentsInChildren<Collider>(true);
-
-            if (collidersToExclude != null)
+            bool hasExclusions = collidersToExclude != null && collidersToExclude.Count > 0;
+            
+            Bounds bounds = default;
+            bool initialized = false;
+            
+            for (int i = 0; i < colliders.Length; i++)
             {
-                colliders = colliders.Where(x => !collidersToExclude.Contains(x)).ToArray();
-            }
-
-            if (colliders.Length > 0)
-            {
-                Bounds bounds = colliders[0].bounds;
-                for (int i = 1; i < colliders.Length; i++)
+                if (hasExclusions && collidersToExclude.Contains(colliders[i]))
+                    continue;
+                    
+                if (!initialized)
+                {
+                    bounds = colliders[i].bounds;
+                    initialized = true;
+                }
+                else
                 {
                     bounds.Encapsulate(colliders[i].bounds);
                 }
-                return bounds;
             }
-            else
-            {
-                // If there are no colliders, use a default bounds
-                return new Bounds(obj.transform.position, Vector3.zero);
-            }
+            
+            return initialized ? bounds : new Bounds(obj.transform.position, Vector3.zero);
         }
     }
 }
