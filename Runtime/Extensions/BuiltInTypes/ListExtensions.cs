@@ -12,7 +12,7 @@ namespace AnkleBreaker.Utils.Extensions
             return count > 0 && index >= 0 && index < count;
         }
 
-        public static void SetActiveObjects<T>(this List<T> src, bool toEnable) where T : Object
+        public static void SetActiveObjects<T>(this List<T> src, bool toEnable) where T : UnityEngine.Object
         {
             if (src.Count == 0) return;
 
