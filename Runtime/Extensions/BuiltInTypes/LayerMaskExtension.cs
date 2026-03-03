@@ -15,17 +15,9 @@ namespace AnkleBreaker.Utils.Extensions
             return mask == (mask | (1 << layer));
         }
 
-        #if UNITY_EDITOR
         public static LayerMask AddLayer(this LayerMask mask, int layerToAdd)
         {
-            // Get current layer mask value
-            int currentLayerMaskValue = mask.value;
-
-            // add a new layer activating the bit
-            currentLayerMaskValue |= (1 << layerToAdd);
-
-            return currentLayerMaskValue;
+            return mask.value | (1 << layerToAdd);
         }
-        #endif
     }
 }

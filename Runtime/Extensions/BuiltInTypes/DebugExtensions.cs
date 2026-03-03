@@ -4,26 +4,31 @@ namespace AnkleBreaker.Utils.Extensions
 {
     public static class DebugExtensions
     {
-        private static Vector4[] MakeUnitSphere(int len)
+        private const int UnitSphereSegments = 16;
+        private static Vector4[] _unitSphere;
+        
+        private static Vector4[] GetUnitSphere()
         {
-            Debug.Assert(len > 2);
-            var v = new Vector4[len * 3];
+            if (_unitSphere != null) return _unitSphere;
+            
+            int len = UnitSphereSegments;
+            _unitSphere = new Vector4[len * 3];
             for (int i = 0; i < len; i++)
             {
-                var f = i / (float)len;
-                float c = Mathf.Cos(f * (float)(Mathf.PI * 2.0));
-                float s = Mathf.Sin(f * (float)(Mathf.PI * 2.0));
-                v[0 * len + i] = new Vector4(c, s, 0, 1);
-                v[1 * len + i] = new Vector4(0, c, s, 1);
-                v[2 * len + i] = new Vector4(s, 0, c, 1);
+                float f = i / (float)len;
+                float c = Mathf.Cos(f * Mathf.PI * 2f);
+                float s = Mathf.Sin(f * Mathf.PI * 2f);
+                _unitSphere[0 * len + i] = new Vector4(c, s, 0, 1);
+                _unitSphere[1 * len + i] = new Vector4(0, c, s, 1);
+                _unitSphere[2 * len + i] = new Vector4(s, 0, c, 1);
             }
-            return v;
+            return _unitSphere;
         }
         
         public static void DrawSphere(Vector4 pos, float radius, Color color, float duration = 0)
         {
-            Vector4[] v = MakeUnitSphere(16);
-            int len = v.Length / 3;
+            Vector4[] v = GetUnitSphere();
+            int len = UnitSphereSegments;
             for (int i = 0; i < len; i++)
             {
                 var sX = pos + radius * v[0 * len + i];
