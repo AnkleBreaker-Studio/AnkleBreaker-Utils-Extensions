@@ -1,16 +1,18 @@
 {
   "name": "com.anklebreaker-studio.utils.extensions",
   "version": "1.0.0",
-  "displayName": "AnkleBreaker-studio Utils Extensions",
+  "displayName": "AnkleBreaker Studio - Utils Extensions",
   "description": "Extension methods for built-in Unity and C# types, helpers, and utility structs. Part of the AnkleBreaker Utils split.",
   "unity": "2022.3",
   "type": "library",
+  "license": "MIT",
   "repository": {
     "url": "https://github.com/AnkleBreaker-Studio/AnkleBreaker-Utils-Extensions.git",
     "type": "git"
   },
   "author": {
-    "name": "AnkleBreaker-studio",
+    "name": "AnkleBreaker Studio",
+    "email": "contact@anklebreaker-studio.com",
     "url": "https://www.anklebreaker-studio.com"
   },
   "dependencies": {}
