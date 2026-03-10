@@ -1,6 +1,6 @@
 {
   "name": "com.anklebreaker-studio.utils.extensions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "AnkleBreaker Studio - Utils Extensions",
   "description": "Extension methods for built-in Unity and C# types, helpers, and utility structs. Part of the AnkleBreaker Utils split.",
   "unity": "2022.3",

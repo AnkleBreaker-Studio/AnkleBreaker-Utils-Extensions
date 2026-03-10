@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.1] - 2026-03-10
+
+### Fixed
+- Add missing RendererExtensions.cs.meta preventing the file from being included in UPM package resolution
+
 ## [1.0.0] - 2026-03-02
 
 ### Added
